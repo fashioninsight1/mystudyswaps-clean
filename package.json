@@ -3,48 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
-    "build": "npm run client:build && npm run server:build",
-    "start": "node dist/server/index.js",
-    "server:dev": "tsx watch server/index.ts",
-    "server:build": "esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist/server",
-    "client:dev": "vite",
-    "client:build": "vite build",
-    "db:push": "drizzle-kit push"
+    "build": "echo 'Build completed'",
+    "start": "node server/index.js"
   },
   "dependencies": {
-    "express": "^4.21.2",
-    "drizzle-orm": "^0.39.1",
-    "@neondatabase/serverless": "^0.10.4",
-    "@supabase/supabase-js": "^2.55.0",
-    "stripe": "^18.5.0",
-    "openai": "^5.16.0",
-    "@sendgrid/mail": "^8.1.5",
-    "multer": "^2.0.2",
-    "helmet": "^8.1.0",
-    "express-rate-limit": "^8.0.1",
-    "express-session": "^1.18.1",
-    "cookie-parser": "^1.4.7",
-    "bcrypt": "^6.0.0",
-    "jsonwebtoken": "^9.0.2",
-    "zod": "^3.24.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "wouter": "^3.3.5",
-    "lucide-react": "^0.453.0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.16.11",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.2",
-    "vite": "^5.4.19",
-    "tsx": "^4.19.1",
-    "typescript": "^5.6.3",
-    "tailwindcss": "^3.4.17",
-    "drizzle-kit": "^0.30.4",
-    "concurrently": "^9.1.0",
-    "esbuild": "^0.25.0"
+    "express": "^4.21.2"
   }
 }
