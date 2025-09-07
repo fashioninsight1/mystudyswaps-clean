@@ -1,3 +1,5 @@
+import { config } from './config';
+
 // API utilities for the client
 interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
@@ -8,26 +10,38 @@ interface ApiRequestOptions {
 export async function apiRequest(endpoint: string, options: ApiRequestOptions = {}): Promise<any> {
   const { method = 'GET', body, headers = {} } = options;
   
-  const config: RequestInit = {
+  // Construct full URL using base URL from config
+  const url = endpoint.startsWith('http') 
+    ? endpoint 
+    : `${config.apiBaseUrl}${endpoint}`;
+  
+  const requestConfig: RequestInit = {
     method,
     headers: {
       'Content-Type': 'application/json',
       ...headers,
     },
+    // Important: Include credentials for cross-origin requests
+    credentials: 'include',
   };
 
   if (body && method !== 'GET') {
-    config.body = JSON.stringify(body);
+    requestConfig.body = JSON.stringify(body);
   }
 
-  const response = await fetch(endpoint, config);
-  
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+  try {
+    const response = await fetch(url, requestConfig);
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    return response.json();
+  } catch (error) {
+    console.error('API Request failed:', { url, method, error });
+    throw error;
   }
-
-  return response.json();
 }
 
 // Payment API helpers
@@ -74,5 +88,25 @@ export const contentApi = {
     apiRequest('/api/content/newsletter/preferences', {
       method: 'PUT',
       body: { email, preferences },
+    }),
+};
+
+// Auth API helpers (since you have auth routes)
+export const authApi = {
+  register: (userData: any) =>
+    apiRequest('/api/auth/register', {
+      method: 'POST',
+      body: userData,
+    }),
+  
+  childLogin: (username: string, password: string) =>
+    apiRequest('/api/auth/child-login', {
+      method: 'POST',
+      body: { username, password },
+    }),
+  
+  logout: () =>
+    apiRequest('/api/auth/logout', {
+      method: 'POST',
     }),
 };
