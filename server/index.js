@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
 const app = express();
+app.set('trust proxy', 1); 
 const port = process.env.PORT || 3000;
 
 // Security middleware
