@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "echo 'No build step needed for Node.js server'"
+    "build": "echo 'Build completed'",
     "start": "node server/index.js",
     "dev": "node server/index.js"
   },
