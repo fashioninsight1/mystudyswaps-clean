@@ -2,7 +2,6 @@ import express from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/auth.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -59,8 +58,20 @@ app.get('/', (req, res) => {
   });
 });
 
-// API routes
-app.use('/api/auth', authRoutes);
+// Load auth routes with error handling
+async function loadAuthRoutes() {
+  try {
+    const authModule = await import('./routes/auth.js');
+    app.use('/api/auth', authModule.default);
+    console.log('✅ Auth routes loaded successfully');
+  } catch (error) {
+    console.warn('⚠️ Auth routes not found:', error.message);
+    console.log('App will continue without auth routes');
+  }
+}
+
+// Load routes
+await loadAuthRoutes();
 
 // Error handling
 app.use((err, req, res, next) => {
