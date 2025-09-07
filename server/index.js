@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     'http://localhost:3000',
     'http://localhost:5173',
     process.env.FRONTEND_URL, // Will be your Vercel URL
-    'https://your-app-name.vercel.app' // Replace with your actual Vercel URL
+    'https://mystudyswaps-frontend.vercel.app'
   ].filter(Boolean);
 
   const origin = req.headers.origin;
